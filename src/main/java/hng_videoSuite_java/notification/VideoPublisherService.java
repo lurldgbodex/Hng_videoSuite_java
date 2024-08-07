@@ -1,7 +1,7 @@
-package hng_video_processing.notification;
+package hng_videoSuite_java.notification;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hng_video_processing.video.dto.VideoPathDto;
+import hng_videoSuite_java.video.dto.VideoPathDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;

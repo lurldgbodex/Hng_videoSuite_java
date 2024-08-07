@@ -1,4 +1,4 @@
-package hng_video_processing.video.dto;
+package hng_videoSuite_java.video.dto;
 
 import lombok.Data;
 

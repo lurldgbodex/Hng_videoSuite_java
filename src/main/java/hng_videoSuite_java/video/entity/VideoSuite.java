@@ -1,6 +1,6 @@
-package hng_video_processing.video.entity;
+package hng_videoSuite_java.video.entity;
 
-import hng_video_processing.video.enums.VideoStatus;
+import hng_videoSuite_java.video.enums.VideoStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

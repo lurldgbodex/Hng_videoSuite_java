@@ -1,6 +1,6 @@
-package hng_video_processing.video.repository;
+package hng_videoSuite_java.video.repository;
 
-import hng_video_processing.video.entity.VideoSuite;
+import hng_videoSuite_java.video.entity.VideoSuite;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

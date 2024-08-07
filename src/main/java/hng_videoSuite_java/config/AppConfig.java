@@ -1,4 +1,4 @@
-package hng_video_processing.config;
+package hng_videoSuite_java.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Binding;

@@ -1,4 +1,4 @@
-package hng_video_processing.video.enums;
+package hng_videoSuite_java.video.enums;
 
 public enum VideoStatus {
     PENDING,
