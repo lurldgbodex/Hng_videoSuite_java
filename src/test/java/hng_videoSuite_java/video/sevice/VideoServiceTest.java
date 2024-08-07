@@ -37,25 +37,25 @@ class VideoServiceTest {
         video.put("video2.mp4", new byte[]{5,6,7});
 
         VideoPathDto videoPathDto = new VideoPathDto();
-        videoPathDto.setJobId(UUID.randomUUID());
+        videoPathDto.setJobId(UUID.randomUUID().toString());
         videoPathDto.setVideo(video);
         String jsonMessage = new ObjectMapper().writeValueAsString(videoPathDto);
 
         when(objectMapper.readValue(anyString(), eq(VideoPathDto.class))).thenReturn(videoPathDto);
-        doNothing().when(videoUtils).updateJobStatus(any(UUID.class), any(VideoStatus.class));
-        doNothing().when(videoUtils).updateJobProgress(any(UUID.class), anyInt());
-        doNothing().when(ffmpegService).mergeVideos(anyString(), any(UUID.class), any(String[].class));
+        doNothing().when(videoUtils).updateJobStatus(anyString(), any(VideoStatus.class));
+        doNothing().when(videoUtils).updateJobProgress(anyString(), anyInt());
+        doNothing().when(ffmpegService).mergeVideos(anyString(), anyString(), any(String[].class));
 
         underTest.handleVideoMergeJob(jsonMessage);
 
-        verify(ffmpegService).mergeVideos(anyString(), any(UUID.class), any(String[].class));
-        verify(videoUtils, times(3)).updateJobStatus(any(UUID.class), any(VideoStatus.class));
-        verify(videoUtils, times(1)).updateJobProgress(any(UUID.class), anyInt());
+        verify(ffmpegService).mergeVideos(anyString(), anyString(), any(String[].class));
+        verify(videoUtils, times(3)).updateJobStatus(anyString(), any(VideoStatus.class));
+        verify(videoUtils, times(1)).updateJobProgress(anyString(), anyInt());
     }
 
     @Test
     void testHandleVideoMergeJob_Failure() throws IOException, ExecutionException, InterruptedException {
-        UUID jobId = UUID.randomUUID();
+        String jobId = UUID.randomUUID().toString();
         VideoPathDto videoPathDto = new VideoPathDto();
         videoPathDto.setJobId(jobId);
         Map<String, byte[]> videoMap = new HashMap<>();
@@ -65,12 +65,12 @@ class VideoServiceTest {
         String jsonMessage = new ObjectMapper().writeValueAsString(videoPathDto);
 
         when(objectMapper.readValue(anyString(), eq(VideoPathDto.class))).thenReturn(videoPathDto);
-        doNothing().when(videoUtils).updateJobStatus(any(UUID.class), any(VideoStatus.class));
-        doThrow(new IOException("FFmpeg failed")).when(ffmpegService).mergeVideos(anyString(), any(UUID.class), any(String[].class));
+        doNothing().when(videoUtils).updateJobStatus(anyString(), any(VideoStatus.class));
+        doThrow(new IOException("FFmpeg failed")).when(ffmpegService).mergeVideos(anyString(), anyString(), any(String[].class));
 
         // Test
         underTest.handleVideoMergeJob(jsonMessage);
-        verify(ffmpegService).mergeVideos(anyString(), any(UUID.class), any(String[].class));
+        verify(ffmpegService).mergeVideos(anyString(), anyString(), any(String[].class));
     }
 
 }

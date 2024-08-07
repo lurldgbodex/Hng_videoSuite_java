@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,7 +27,7 @@ public class FfmpegUtils {
     }
 
     void handleProcessOutput(Process process, double totalDuration,
-                                     UUID jobId) throws ExecutionException, InterruptedException {
+                                     String jobId) throws ExecutionException, InterruptedException {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         AtomicReference<Double> elapsedTime = new AtomicReference<>(0.0);
 

@@ -43,10 +43,10 @@ public class FfmpegServiceTest {
         // Ensure the file is deleted after the test
         tempOutputFile.toFile().deleteOnExit();
 
-        doNothing().when(videoUtils).updateJobProgress(any(UUID.class), anyInt());
+        doNothing().when(videoUtils).updateJobProgress(anyString(), anyInt());
         // Define the totalDuration and jobId for the test
         double totalDuration = 34.0;
-        UUID jobId = UUID.randomUUID();
+        String jobId = UUID.randomUUID().toString();
 
         // Call the encodeVideo method
         ffmpegService.encodeVideo(tempInputFile, tempOutputFile.toString(), totalDuration, jobId);
@@ -66,10 +66,10 @@ public class FfmpegServiceTest {
 
         tempOutputFile.toFile().deleteOnExit();
 
-        doNothing().when(videoUtils).updateJobProgress(any(UUID.class), anyInt());
-        doNothing().when(videoUtils).updateJobStatus(any(UUID.class), any(VideoStatus.class));
+        doNothing().when(videoUtils).updateJobProgress(anyString(), anyInt());
+        doNothing().when(videoUtils).updateJobStatus(anyString(), any(VideoStatus.class));
 
-        UUID jobId = UUID.randomUUID();
+        String jobId = UUID.randomUUID().toString();
 
         String[] inputFiles = {
                 resource1.getFile().getAbsolutePath(),

@@ -9,7 +9,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
@@ -22,7 +21,7 @@ public class FfmpegService {
     private final String ffprobe = "ffprobe";
 
     public void encodeVideo(String inputFilePath, String outputFilePath,
-                             double totalDuration, UUID jobId) throws IOException, ExecutionException, InterruptedException {
+                             double totalDuration, String jobId) throws IOException, ExecutionException, InterruptedException {
         log.info("Encoding video: {}", inputFilePath);
         String command = String.format("%s -i %s -c:v libx264 -c:a aac -strict experimental %s",
                 ffmpeg, inputFilePath, outputFilePath);
@@ -31,7 +30,7 @@ public class FfmpegService {
     }
 
 
-    public void mergeVideos(String outputFilePath, UUID jobId,
+    public void mergeVideos(String outputFilePath, String jobId,
                             String... inputFiles) throws IOException, InterruptedException, ExecutionException {
         double totalDuration = 0;
 

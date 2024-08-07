@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ public class VideoPublisherService {
     @Value("${rabbitmq.queue.mergedVideos}")
     private String queueName;
 
-    public void publishMergedVideo(UUID jobId, File videoFile) throws IOException {
+    public void publishMergedVideo(String jobId, File videoFile) throws IOException {
         byte[] videoData = Files.readAllBytes(videoFile.toPath());
         Map<String, byte[]> mergedVideo = new HashMap<>();
         mergedVideo.put("merged_video.mp4", videoData);

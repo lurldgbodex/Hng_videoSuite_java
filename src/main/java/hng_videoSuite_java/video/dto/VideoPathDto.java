@@ -8,6 +8,6 @@ import java.util.UUID;
 
 @Data
 public class VideoPathDto {
-    private UUID jobId;
+    private String jobId;
     private Map<String, byte[]> video = new HashMap<>();
 }

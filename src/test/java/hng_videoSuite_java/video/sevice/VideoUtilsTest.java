@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -26,9 +27,9 @@ class VideoUtilsTest {
 
     @Test
     void testUpdateJobStatus() {
-        UUID jobId = UUID.randomUUID();
+        String jobId = UUID.randomUUID().toString();
         VideoSuite job = new VideoSuite();
-        when(videoRepository.findById(any(UUID.class))).thenReturn(Optional.of(job));
+        when(videoRepository.findById(anyString())).thenReturn(Optional.of(job));
 
         underTest.updateJobStatus(jobId, VideoStatus.SUCCESS);
 
@@ -38,9 +39,9 @@ class VideoUtilsTest {
 
     @Test
     void testUpdateJobProgress() {
-        UUID jobId = UUID.randomUUID();
+        String jobId = UUID.randomUUID().toString();
         VideoSuite job = new VideoSuite();
-        when(videoRepository.findById(any(UUID.class))).thenReturn(Optional.of(job));
+        when(videoRepository.findById(anyString())).thenReturn(Optional.of(job));
 
         underTest.updateJobProgress(jobId, 50);
 

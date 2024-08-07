@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ public class VideoUtils {
         return file;
     }
 
-    public void updateJobStatus(UUID jobId, VideoStatus status) {
+    public void updateJobStatus(String jobId, VideoStatus status) {
         VideoSuite job = videoRepository.findById(jobId)
                 .orElseThrow(() -> new RuntimeException("job not found with id"));
         job.setStatus(status);
@@ -31,7 +30,7 @@ public class VideoUtils {
     }
 
     @Transactional
-    public void updateJobProgress(UUID jobId, int progress) {
+    public void updateJobProgress(String jobId, int progress) {
         VideoSuite job = videoRepository.findById(jobId)
                 .orElseThrow(() -> new RuntimeException("job not found"));
         job.setProgress(progress);

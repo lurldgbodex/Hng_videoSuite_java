@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
@@ -32,7 +31,7 @@ public class VideoService {
             log.error("Failed to parse Video Path Dto: {}", ex.getMessage());
             return;
         }
-        UUID jobId = videoPathDto.getJobId();
+        String jobId = videoPathDto.getJobId();
         if (jobId == null || videoPathDto.getVideo() == null) {
             log.error("invalid job ID: {}", jobId);
             return;

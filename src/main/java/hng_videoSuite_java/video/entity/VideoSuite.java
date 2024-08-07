@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Getter
 @Setter
 @Entity
@@ -17,8 +15,8 @@ import java.util.UUID;
 @Table(name = "video_suite")
 public class VideoSuite {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID jobId;
+    @Column(nullable = false)
+    private String jobId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
