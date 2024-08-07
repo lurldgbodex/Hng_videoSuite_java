@@ -60,7 +60,7 @@ docker-compose up -d
     spring.rabbitmq.password=${PASSWORD}
     
     # postgres configuration
-    spring.datasource.url=jdbc:postgresql://localhost/hng_video_db
+    spring.datasource.url=jdbc:${CONNECTION_STRING}
     spring.datasource.username=${DB_USER}
     spring.datasource.password=${DB_PASS}
     
