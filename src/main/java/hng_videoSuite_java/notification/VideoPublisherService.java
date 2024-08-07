@@ -1,6 +1,5 @@
 package hng_video_processing.notification;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hng_video_processing.video.dto.VideoPathDto;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class VideoPublisherService {
     private final ObjectMapper objectMapper;
 
     @Value("${rabbitmq.queue.mergedVideos}")
-    private String mergedVideosQueue;
+    private String queueName;
 
     public void publishMergedVideo(UUID jobId, File videoFile) throws IOException {
         byte[] videoData = Files.readAllBytes(videoFile.toPath());
@@ -35,6 +34,6 @@ public class VideoPublisherService {
 
         String message = objectMapper.writeValueAsString(videoPathDto);
 
-        rabbitTemplate.convertAndSend(mergedVideosQueue, message);
+        rabbitTemplate.convertAndSend(queueName, message);
     }
 }

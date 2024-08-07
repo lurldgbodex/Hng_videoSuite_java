@@ -1,4 +1,4 @@
-package hng_video_processing;
+package hng_videoSuite_java;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
