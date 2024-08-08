@@ -14,12 +14,12 @@ runs:
         spring.rabbitmq.port=5672
         spring.rabbitmq.username=${RABBITMQ_USERNAME}
         spring.rabbitmq.password=${RABBITMQ_PASSWORD}
-        spring.datasource.url=jdbc:{DB_CONNECTION_STRING}
-        spring.datasource.username={DB_USERNAME}
-        spring.datasource.password={DB_PASSWORD}
+        spring.datasource.url=jdbc:${DB_CONNECTION_STRING}
+        spring.datasource.username=${DB_USERNAME}
+        spring.datasource.password=${DB_PASSWORD}
         spring.jpa.hibernate.ddl-auto=create
         rabbitmq.queue.finishedConcat=finishedConcat
-        rabbitmq.queue.concat=concatqueue
+        rabbitmq.queue.concat=videoConcat
         spring.batch.jdbc.initialize-schema=always
         spring.batch.job.enabled=false
         EOF
