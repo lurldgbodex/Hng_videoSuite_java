@@ -17,6 +17,7 @@ runs:
         spring.datasource.url=jdbc:{DB_CONNECTION_STRING}
         spring.datasource.username={DB_USERNAME}
         spring.datasource.password={DB_PASSWORD}
+        spring.jpa.hibernate.ddl-auto=create
         rabbitmq.queue.finishedConcat=finishedConcat
         rabbitmq.queue.concat=concatqueue
         spring.batch.jdbc.initialize-schema=always
