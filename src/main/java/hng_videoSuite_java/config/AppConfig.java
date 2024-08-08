@@ -16,7 +16,6 @@ public class AppConfig {
 
     @Value("${rabbitmq.queue.finishedConcat")
     private String finishedConcat;
-
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
@@ -30,15 +29,5 @@ public class AppConfig {
     @Bean
     public Queue finishedConcat() {
         return new Queue(finishedConcat, true);
-    }
-
-    @Bean
-    public DirectExchange exchange() {
-        return new DirectExchange("myExchange");
-    }
-
-    @Bean
-    public Binding binding(Queue concatQueue, DirectExchange exchange) {
-        return BindingBuilder.bind(concatQueue).to(exchange).with("RoutingKey");
     }
 }
