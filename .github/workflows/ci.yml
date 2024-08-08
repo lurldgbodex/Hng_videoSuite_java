@@ -67,6 +67,9 @@ jobs:
       - name: Create application.properties
         uses: ./.github/workflows/create-application-properties
 
+      - name: Install FFMPEG
+        run: sudo apt install ffmpeg     
+
       - name: Download Dependencies
         run: mvn dependency:resolve
 
