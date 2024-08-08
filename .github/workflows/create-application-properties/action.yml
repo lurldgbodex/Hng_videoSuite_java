@@ -6,7 +6,7 @@ runs:
     - run: |
         source .env
 
-        cat << EOF > src/main/resources/application.properties
+        cat << EOF > src/main/application.properties
 
         spring.application.name=hng-java-boilerplate
 
