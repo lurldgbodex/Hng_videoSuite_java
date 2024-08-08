@@ -22,7 +22,7 @@ public class VideoService {
     private final JobLauncher jobLauncher;
     private final Job videoProcessingJob;
 
-    @RabbitListener(queues = "${rabbitmq.queue.concat}")
+    @RabbitListener(queues = "${rabbitmq.queue.concat:videoConcat}")
     public void handleJobLaunch(String message) {
         String jobId;
 

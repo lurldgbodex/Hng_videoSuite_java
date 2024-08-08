@@ -1,9 +1,6 @@
 package hng_videoSuite_java.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,11 +8,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
-    @Value("${rabbitmq.queue.concat}")
+    @Value("${rabbitmq.queue.concat:videoConcat}")
     private String videoConcat;
 
-    @Value("${rabbitmq.queue.finishedConcat")
+    @Value("${rabbitmq.queue.finishedConcat:finishedConcat}")
     private String finishedConcat;
+
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
