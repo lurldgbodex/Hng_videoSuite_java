@@ -18,7 +18,7 @@ runs:
         spring.datasource.username={DB_USERNAME}
         spring.datasource.password={DB_PASSWORD}
         rabbitmq.queue.finishedConcat=finishedConcat
-        rabbitmq.queue.concat=concatQueue
+        rabbitmq.queue.concat=concatqueue
         spring.batch.jdbc.initialize-schema=always
         spring.batch.job.enabled=false
         EOF
