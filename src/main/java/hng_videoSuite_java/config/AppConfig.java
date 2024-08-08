@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
-    @Value("${rabbitmq.queue.concat}")
+    @Value("${rabbitmq.queue.concat:videoConcat}")
     private String videoConcat;
 
-    @Value("${rabbitmq.queue.finishedConcat")
+    @Value("${rabbitmq.queue.finishedConcat:finishedConcat}")
     private String finishedConcat;
 
     @Bean
