@@ -61,7 +61,6 @@ jobs:
           echo "DB_CONNECTION_STRING=postgresql://localhost:5432/postgres" >> .env
           echo "DB_USERNAME=admin" >> .env
           echo "DB_PASSWORD=password123" >> .env
-          echo "RABBITMQ_PORT=5672" >> .env
           echo "RABBITMQ_USERNAME=guest" >> .env
           echo "RABBITMQ_PASSWORD=guest" >> .env
 
