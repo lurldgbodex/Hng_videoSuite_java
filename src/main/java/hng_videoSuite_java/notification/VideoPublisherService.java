@@ -19,7 +19,7 @@ public class VideoPublisherService {
     private final RabbitTemplate rabbitTemplate;
     private final ObjectMapper objectMapper;
 
-    @Value("${rabbitmq.queue.finishedConcat}")
+    @Value("${rabbitmq.queue.finishedConcat:finishedConcat}")
     private String queueName;
 
     public void publishMergedVideo(String jobId, File videoFile) throws IOException {
