@@ -17,7 +17,7 @@ runs:
         spring.datasource.url=jdbc:{DB_CONNECTION_STRING}
         spring.datasource.username={DB_USERNAME}
         spring.datasource.password={DB_PASSWORD}
-        rabbitmq.queue.mergedVideos=finishedConcat
+        rabbitmq.queue.finishedConcat=finishedConcat
         rabbitmq.queue.concat=concatQueue
         spring.batch.jdbc.initialize-schema=always
         spring.batch.job.enabled=false
