@@ -84,9 +84,13 @@ public class FfmpegUtils {
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
             String line = reader.readLine();
+            log.info("Duration: {}", line);
             if (line != null) {
                 return Double.parseDouble(line.trim());
             }
+        } catch (NumberFormatException ex) {
+            log.error("Error parsing duration output: {}", ex.getMessage());
+            throw new IOException("Invalid Duration Format " + ex.getMessage());
         }
 
         throw new IOException("Unable to get video duration");

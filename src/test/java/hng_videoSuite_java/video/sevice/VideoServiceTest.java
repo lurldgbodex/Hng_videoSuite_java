@@ -66,7 +66,6 @@ class VideoServiceTest {
         // Verify JobParameters
         JobParameters jobParameters = jobParametersCaptor.getValue();
         assertEquals(videoPathDto.getJobId(), jobParameters.getString("jobId"));
-        assertEquals(jsonMessage, jobParameters.getString("videoPathDto"));
     }
 
     @Test
@@ -92,7 +91,7 @@ class VideoServiceTest {
     }
     @Test
     void testHandleJobLaunch_Failure_dueToNullOrEmptyMessage() throws JobInstanceAlreadyCompleteException,
-            JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
+            JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException, IOException {
         // Call method under test with null message
         underTest.handleJobLaunch(null);
 

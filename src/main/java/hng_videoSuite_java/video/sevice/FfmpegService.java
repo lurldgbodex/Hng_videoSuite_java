@@ -58,7 +58,7 @@ public class FfmpegService {
         }
 
         // merge the re-encoded videos
-        String command = String.format("%s -f concat -safe 0 -i %s -c copy %s",
+        String command = String.format("%s -y -f concat -safe 0 -i %s -c copy %s",
                 ffmpeg, listFile.toAbsolutePath(), outputFilePath);
         Process process = ffmpegUtils.executeCommand(command);
         ffmpegUtils.handleProcessOutput(process, totalDuration, jobId);
@@ -72,6 +72,11 @@ public class FfmpegService {
 
         try {
             videoPublisherService.publishMergedVideo(jobId, new File(outputFilePath));
+
+            File outputFile = new File(outputFilePath);
+            if (outputFile.exists() && !outputFile.delete()) {
+                log.error("Failed to delete output file: {}", outputFilePath);
+            }
         } catch (IOException ex) {
             log.error("Failed to publish merged video: {}", ex.getMessage());
         }

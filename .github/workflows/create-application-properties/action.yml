@@ -1,0 +1,26 @@
+name: 'Create application.properties'
+description: 'Creates the application.properties file'
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        source .env
+
+        cat << EOF > src/main/application.properties
+
+        spring.application.name=hng_videoSuite_java
+        server.port=8383
+        spring.rabbitmq.host=localhost
+        spring.rabbitmq.port=5672
+        spring.rabbitmq.username=${RABBITMQ_USERNAME}
+        spring.rabbitmq.password=${RABBITMQ_PASSWORD}
+        spring.datasource.url=jdbc:${DB_CONNECTION_STRING}
+        spring.datasource.username=${DB_USERNAME}
+        spring.datasource.password=${DB_PASSWORD}
+        spring.jpa.hibernate.ddl-auto=create
+        rabbitmq.queue.finishedConcat=finishedConcat
+        rabbitmq.queue.concat=videoConcat
+        spring.batch.jdbc.initialize-schema=always
+        spring.batch.job.enabled=false
+        EOF
+      shell: bash
