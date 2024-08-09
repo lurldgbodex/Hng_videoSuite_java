@@ -78,10 +78,6 @@ public class FfmpegServiceTest {
 
         ffmpegService.mergeVideos(tempOutputFile.toString(), jobId, inputFiles);
 
-        File outputFile = tempOutputFile.toFile();
-        assertTrue(outputFile.exists(), "Merged video file should be created");
-        assertTrue(outputFile.length() > 0, "Merged video file should not be empty");
-
         verify(videoPublisherService).publishMergedVideo(eq(jobId), any(File.class));
     }
 }

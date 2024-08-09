@@ -1,6 +1,5 @@
 package hng_videoSuite_java.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hng_videoSuite_java.tasklet.JobCompletionNotification;
 import hng_videoSuite_java.tasklet.VideoProcessingTasklet;
 import hng_videoSuite_java.video.sevice.FfmpegService;
@@ -15,6 +14,8 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
@@ -23,7 +24,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class BatchConfig {
     private final VideoUtils videoUtils;
     private final FfmpegService ffmpegService;
-    private final ObjectMapper objectMapper;
     private final JobCompletionNotification listener;
 
     @Bean
@@ -43,6 +43,11 @@ public class BatchConfig {
 
     @Bean
     public Tasklet tasklet() {
-        return new VideoProcessingTasklet(videoUtils, ffmpegService, objectMapper);
+        return new VideoProcessingTasklet(videoUtils, ffmpegService);
+    }
+
+    @Bean
+    public TaskExecutor taskExecutor() {
+        return new SimpleAsyncTaskExecutor();
     }
 }
