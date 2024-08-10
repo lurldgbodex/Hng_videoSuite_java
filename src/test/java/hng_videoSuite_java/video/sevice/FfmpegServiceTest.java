@@ -67,7 +67,7 @@ public class FfmpegServiceTest {
         tempOutputFile.toFile().deleteOnExit();
 
         doNothing().when(videoUtils).updateJobProgress(anyString(), anyInt());
-        doNothing().when(videoUtils).updateJobStatus(anyString(), any(VideoStatus.class));
+        doNothing().when(videoUtils).updateJobStatus(anyString(), anyString());
 
         String jobId = UUID.randomUUID().toString();
 

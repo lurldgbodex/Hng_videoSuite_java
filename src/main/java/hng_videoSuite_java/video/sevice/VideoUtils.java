@@ -1,7 +1,6 @@
 package hng_videoSuite_java.video.sevice;
 
 import hng_videoSuite_java.video.entity.VideoSuite;
-import hng_videoSuite_java.video.enums.VideoStatus;
 import hng_videoSuite_java.video.repository.VideoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,7 +21,8 @@ public class VideoUtils {
         return file;
     }
 
-    public void updateJobStatus(String jobId, VideoStatus status) {
+    @Transactional
+    public void updateJobStatus(String jobId, String status) {
         VideoSuite job = videoRepository.findById(jobId)
                 .orElseThrow(() -> new RuntimeException("job not found with id"));
         job.setStatus(status);
