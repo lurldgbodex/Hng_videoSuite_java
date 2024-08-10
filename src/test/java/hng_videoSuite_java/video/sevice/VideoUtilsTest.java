@@ -31,10 +31,10 @@ class VideoUtilsTest {
         VideoSuite job = new VideoSuite();
         when(videoRepository.findById(anyString())).thenReturn(Optional.of(job));
 
-        underTest.updateJobStatus(jobId, VideoStatus.SUCCESS);
+        underTest.updateJobStatus(jobId, VideoStatus.SUCCESS.toString());
 
         verify(videoRepository).save(any(VideoSuite.class));
-        assertThat(job.getStatus()).isEqualTo(VideoStatus.SUCCESS);
+        assertThat(job.getStatus()).isEqualTo(VideoStatus.SUCCESS.toString());
     }
 
     @Test

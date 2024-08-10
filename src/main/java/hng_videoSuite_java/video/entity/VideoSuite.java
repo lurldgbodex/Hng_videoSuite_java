@@ -18,19 +18,21 @@ public class VideoSuite {
     @Column(nullable = false)
     private String jobId;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private VideoStatus status;
+    private String status;
 
     @Column(name = "job_type", nullable = false)
     private String jobType;
 
-    @Column(name = "output_video_url")
-    private String outputVideoUrl;
+    @Column(name = "filename")
+    private String filename;
 
     @Column(name = "message")
     private String message;
 
     @Column(name = "progress")
     private int progress;
+
+    @Column(name = "current_process")
+    private String currentProcess;
 }

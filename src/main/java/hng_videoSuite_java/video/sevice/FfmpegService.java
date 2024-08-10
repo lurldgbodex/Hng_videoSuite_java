@@ -18,7 +18,6 @@ public class FfmpegService {
     private final VideoPublisherService videoPublisherService;
     private final FfmpegUtils ffmpegUtils;
     private final String ffmpeg = "ffmpeg";
-    private final String ffprobe = "ffprobe";
 
     public void encodeVideo(String inputFilePath, String outputFilePath,
                              double totalDuration, String jobId) throws IOException, ExecutionException, InterruptedException {
@@ -37,14 +36,14 @@ public class FfmpegService {
         log.info("Starting video merge process for output file: {}", outputFilePath);
 
         for (String inputFile: inputFiles) {
-            totalDuration += ffmpegUtils.getVideoDuration(inputFile, ffprobe);
+            totalDuration += ffmpegUtils.getVideoDuration(inputFile, "ffprobe");
         }
 
         // Re-encode all videos to ensure same format
         Path tempDir = Files.createTempDirectory("merge_videos");
         String[] encodedFiles = new String[inputFiles.length];
         for (int i = 0; i < inputFiles.length; i++) {
-            Path encodedFilePath = tempDir.resolve("re-encoded_" + Paths.get(inputFiles[i]).getFileName());
+            Path encodedFilePath = tempDir.resolve("re-encoded_" + Paths.get(inputFiles[i]).getFileName() + ".mp4");
             encodeVideo(inputFiles[i], encodedFilePath.toString(), totalDuration, jobId);
             encodedFiles[i] = encodedFilePath.toString();
         }

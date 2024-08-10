@@ -1,5 +1,6 @@
 package hng_videoSuite_java.video.sevice;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hng_videoSuite_java.video.dto.VideoPathDto;
 import hng_videoSuite_java.video.enums.VideoStatus;
@@ -16,104 +17,68 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Map;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class VideoService {
-    private final VideoUtils videoUtils;
-    private final ObjectMapper objectMapper;
     private final JobLauncher jobLauncher;
     private final Job videoProcessingJob;
+    private final ObjectMapper objectMapper;
+    private final VideoUtils videoUtils;
 
     @RabbitListener(queues = "${rabbitmq.queue.concat:videoConcat}")
-    public void handleJobLaunch(String message) throws IOException {
-        String jobId;
+    public void handleJobLaunch(String message) {
+        log.info("Queue request gotten");
 
-        log.info("Getting message from queues: {}", message);
         if (message == null || message.isEmpty()) {
-            log.error("Received empty or null message");
-            return;
+            log.error("message is empty");
+            throw new RuntimeException("Empty message received from queue");
         }
 
-        String outputPath;
-        String[] videoFilePaths;
+        String jobId;
         try {
-            VideoPathDto videoPathDto = objectMapper.readValue(message, VideoPathDto.class);
-            jobId = videoPathDto.getJobId();
-            String resourcePath = getResourcePath();
+            VideoPathDto dto = objectMapper.readValue(message, VideoPathDto.class);
+            jobId = dto.getJobId();
 
-            if (resourcePath == null) {
-                videoUtils.updateJobStatus(jobId, VideoStatus.FAILED);
+            if (jobId == null || jobId.isEmpty()) {
+                log.info("invalid video data sent");
                 return;
             }
-
-            log.info("Creating video directory");
-            File mergeVideosDir = new File(resourcePath + "merge_videos");
-            if (!mergeVideosDir.exists() && !mergeVideosDir.mkdirs()) {
-                log.error("Failed to create merge videos directory");
-                videoUtils.updateJobStatus(jobId, VideoStatus.FAILED);
-                return;
-            }
-            log.info("creating output path");
-            outputPath = mergeVideosDir.getAbsolutePath() + File.separator + jobId + "_merge_video.mp4";
-            videoFilePaths = new String[videoPathDto.getVideo().size()];
-
-            int index = 0;
-            log.info("getting byte values");
-            for (Map.Entry<String, byte[]> entry : videoPathDto.getVideo().entrySet()) {
-                String key = entry.getKey();
-                byte[] videoData = entry.getValue();
-                log.info("getting video file");
-                File videoFile = VideoUtils.byteArrayToFile(videoData, mergeVideosDir.getPath() + File.separator + key);
-                log.info("successfully gotten video file");
-                videoFilePaths[index++] = videoFile.getAbsolutePath();
-            }
-        } catch (IOException ex) {
-            log.error("Failed to parse Video Path Dto: {}", ex.getMessage());
+        } catch (JsonProcessingException ex) {
+            log.error("Invalid videoPathDto data");
             return;
         }
 
-        if (jobId == null) {
-            log.error("invalid job ID");
-            return;
-        }
+        String tempFilePath = createTempFileForMessage(message);
+        log.info("File path: {}", tempFilePath);
 
-        File tempFile = File.createTempFile("videoPaths", ".txt");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
-            for (String filePath : videoFilePaths) {
-                writer.write(filePath);
-                writer.newLine();
-            }
-        }
-
-
-        log.info("created job parameter");
         JobParameters jobParameters = new JobParametersBuilder()
+                .addString("inputFilePath", tempFilePath)
                 .addString("jobId", jobId)
-                .addString("outputPath", outputPath)
-                .addString("tempFilePath", tempFile.getAbsolutePath())
                 .toJobParameters();
 
         try {
-            log.info("Launching job processing");
+            log.info("Launching Job process");
             jobLauncher.run(videoProcessingJob, jobParameters);
-            log.info("successfully launch job processing");
+            log.info("Job process completed successfully");
         } catch (Exception ex) {
             log.error("Error launching video processing job: {}", ex.getMessage());
-            videoUtils.updateJobStatus(jobId, VideoStatus.FAILED);
+            videoUtils.updateJobStatus(jobId, VideoStatus.FAILED.name());
         }
     }
 
-    private String getResourcePath() {
+    private String createTempFileForMessage(String message) {
+        File tempFile = null;
         try {
-            String path = getClass().getClassLoader().getResource("").toURI().getPath();
-            return path != null ? path : "";
-        } catch (Exception ex) {
-            log.error("Failed to get resource path: {}", ex.getMessage());
-            return null;
+            tempFile = File.createTempFile("videoMessage", ".json");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+                writer.write(message);
+            }
+        } catch (IOException ex) {
+           log.error("Error creating temp File {}", ex.getMessage());
         }
+        return tempFile != null ? tempFile.getAbsolutePath() : "";
     }
 }
 

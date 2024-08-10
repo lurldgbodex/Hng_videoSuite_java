@@ -20,7 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -65,7 +66,7 @@ class VideoServiceTest {
 
         // Verify JobParameters
         JobParameters jobParameters = jobParametersCaptor.getValue();
-        assertEquals(videoPathDto.getJobId(), jobParameters.getString("jobId"));
+        assertThat(videoPathDto.getJobId()).isEqualTo(jobParameters.getString("jobId"));
     }
 
     @Test
@@ -93,13 +94,15 @@ class VideoServiceTest {
     void testHandleJobLaunch_Failure_dueToNullOrEmptyMessage() throws JobInstanceAlreadyCompleteException,
             JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException, IOException {
         // Call method under test with null message
-        underTest.handleJobLaunch(null);
+        assertThatThrownBy(() -> underTest.handleJobLaunch(null))
+                .isInstanceOf(RuntimeException.class);
 
         // Verify jobLauncher was not called
         verify(jobLauncher, never()).run(any(Job.class), any(JobParameters.class));
 
         // Call method under test with empty message
-        underTest.handleJobLaunch("");
+        assertThatThrownBy(() -> underTest.handleJobLaunch(""))
+                .isInstanceOf(RuntimeException.class);
 
         // Verify jobLauncher was not called
         verify(jobLauncher, never()).run(any(Job.class), any(JobParameters.class));

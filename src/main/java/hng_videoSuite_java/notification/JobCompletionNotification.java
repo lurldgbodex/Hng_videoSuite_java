@@ -1,8 +1,9 @@
-package hng_videoSuite_java.tasklet;
+package hng_videoSuite_java.notification;
 
 import hng_videoSuite_java.video.enums.VideoStatus;
 import hng_videoSuite_java.video.sevice.VideoUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ public class JobCompletionNotification implements JobExecutionListener {
     public void beforeJob(JobExecution jobExecution) {
         String jobId = jobExecution.getJobParameters().getString("jobId");
         if (jobId != null) {
-            videoUtils.updateJobStatus(jobId, VideoStatus.PROCESSING);
+            videoUtils.updateJobStatus(jobId, VideoStatus.PROCESSING.name());
         }
     }
 
@@ -24,10 +25,10 @@ public class JobCompletionNotification implements JobExecutionListener {
     public void afterJob(JobExecution jobExecution) {
         String jobId = jobExecution.getJobParameters().getString("jobId");
         if (jobId != null) {
-            if (jobExecution.getStatus().isUnsuccessful()) {
-                videoUtils.updateJobStatus(jobId, VideoStatus.FAILED);
-            } else {
-                videoUtils.updateJobStatus(jobId, VideoStatus.SUCCESS);
+            if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
+                videoUtils.updateJobStatus(jobId, VideoStatus.SUCCESS.name());
+            } else if (jobExecution.getStatus() == BatchStatus.FAILED){
+                videoUtils.updateJobStatus(jobId, VideoStatus.FAILED.name());
             }
         }
     }
