@@ -16,11 +16,3 @@ services:
       - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
     volumes:
       - ./src/main/resources/application.properties:/app/config/application.properties
-    networks:
-      - staging-backend-net
-    depends_on:
-      staging-rabbitmq:
-        condition: service_healthy
-      staging-postgresdb:
-        condition: service_healthy
-    restart: unless-stopped

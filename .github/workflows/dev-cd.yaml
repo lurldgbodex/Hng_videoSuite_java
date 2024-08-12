@@ -18,7 +18,7 @@ jobs:
           
       - name: Create .env file
         run: |
-          echo "DB_CONNECTION_STRING=postgresql://development-postgresdb:5432/${{ secrets.POSTGRES_DEV_DB }}" >> .env
+          echo "DB_CONNECTION_STRING=postgresql://localhost:5433/${{ secrets.POSTGRES_DEV_DB }}" >> .env
           echo "DB_USERNAME=${{ secrets.POSTGRES_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env 
           echo "RABBITMQ_PORT=${{ secrets.RABBITMQ_PORT }}" >> .env
@@ -81,8 +81,8 @@ jobs:
             gunzip Hng_videoSuite_java_dev.tar.gz
             docker load < Hng_videoSuite_java_dev.tar
             rm -f Hng_videoSuite_java_dev.tar
-            chmod +x ./scripts/dev-deploy.sh
-            ./scripts/dev-deploy.sh
+            chmod +x ./dev-deploy.sh
+            ./dev-deploy.sh
 
 
   on-failure:
