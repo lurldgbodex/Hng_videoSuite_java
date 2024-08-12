@@ -5,38 +5,14 @@ services:
     image: hng-video-processor:v1.0.0
     ports:
       - 8383:8383
+    env_file:
+      - ./.env
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      - job
-      - db
-    networks:
-      - hng-net
-
-  job:
-    container_name: rabbitmq
-    image: rabbitmq:3-management-alpine
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    networks:
-      - hng-net
-
-  db:
-    container_name: postgres
-    image: postgres:15.7-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASS}
-    ports:
-      - 5432:5432
-    networks:
-      - hng-net
-
-networks:
-  hng-net:
-    driver: bridge
+      - SPRING_CONFIG_LOCATION=/app/config/application.properties
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+    volumes:
+      - ./src/main/resources/application.properties:/app/config/application.properties
