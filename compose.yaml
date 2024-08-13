@@ -1,8 +1,8 @@
 services:
   app:
-    container_name: hng-video-processor
+    container_name: Hng_videoSuite_java
     build: .
-    image: hng-video-processor:v1.0.0
+    image: Hng_videoSuite_java_dev:latest
     ports:
       - 8383:8383
     env_file:
