@@ -2,7 +2,7 @@ services:
   app:
     container_name: hng_video_suite_java
     build: .
-    image: hng_video_suite_java:latest
+    image: hng_video_suite_java
 
     ports:
       - 8383:8383
@@ -17,3 +17,9 @@ services:
       - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
     volumes:
       - ./src/main/resources/application.properties:/app/config/application.properties
+    networks:
+      - hng_boilerplate_java_web_staging-backend-net
+
+networks:
+  hng_boilerplate_java_web_staging-backend-net:
+    external: true
