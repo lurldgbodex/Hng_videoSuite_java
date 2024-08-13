@@ -4,7 +4,7 @@ set -e
 
 
 gunzip -c /tmp/hng_videoSuite_java.tar.gz | docker load
-rm -f /tmp/hng_videoSuite_java.tar.gz
+sudo rm -rf /tmp/hng_videoSuite_java.tar.gz
 git add .
 git stash
 git checkout main
