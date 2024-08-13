@@ -64,7 +64,7 @@ jobs:
           username: ${{ secrets.DEV_SSH_USERNAME }}
           password: ${{ secrets.DEV_SSH_PASSWORD }}
           source: "hng_videoSuite_java.tar.gz"
-          target: "~/hng_videoSuite_java"
+          target: "/tmp"
 
       - name: Deploy on server
         uses: appleboy/ssh-action@master
@@ -74,13 +74,6 @@ jobs:
           password: ${{ secrets.STAGING_SSH_PASSWORD }}
           script: |
             cd ~/Hng_videoSuite_java
-            git fetch origin main
-            git stash
-            git checkout main
-            git pull
-            gunzip hng_videoSuite_java.tar.gz
-            docker load < hng_videoSuite_java.tar
-            rm -f hng_videoSuite_java.tar
             chmod +x ./dev-deploy.sh
             ./dev-deploy.sh
 
