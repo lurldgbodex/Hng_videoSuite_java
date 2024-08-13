@@ -74,9 +74,9 @@ jobs:
           password: ${{ secrets.STAGING_SSH_PASSWORD }}
           script: |
             cd ~/Hng_videoSuite_java
-            git fetch origin dev
+            git fetch origin main
             git stash
-            git checkout dev
+            git checkout main
             git pull
             gunzip Hng_videoSuite_java_dev.tar.gz
             docker load < Hng_videoSuite_java_dev.tar
