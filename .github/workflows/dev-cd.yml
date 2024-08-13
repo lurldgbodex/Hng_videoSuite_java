@@ -43,7 +43,7 @@ jobs:
           
       - name: Save and compress Docker images
         run: |
-          docker save hng_video_suite_java:latest | gzip > hng_videoSuite_java.tar.gz
+          docker save hng_video_suite_java | gzip > hng_videoSuite_java.tar.gz
       
       - name: Upload artifact
         uses: actions/upload-artifact@v2
