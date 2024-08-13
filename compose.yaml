@@ -1,8 +1,8 @@
 services:
   app:
-    container_name: Hng_videoSuite_java
+    container_name: hng_videoSuite_java
     build: .
-    image: Hng_videoSuite_java_dev:latest
+    image: hng_videoSuite_java_dev:latest
     ports:
       - 8383:8383
     env_file:
