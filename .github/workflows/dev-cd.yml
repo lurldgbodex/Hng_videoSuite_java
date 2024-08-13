@@ -43,7 +43,7 @@ jobs:
           
       - name: Save and compress Docker images
         run: |
-          docker save Hng_videoSuite_java_dev:latest | gzip > Hng_videoSuite_java_dev.tar.gz
+          docker save hng_videoSuite_java_dev:latest | gzip > hng_videoSuite_java_dev.tar.gz
       
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -63,8 +63,8 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.DEV_SSH_USERNAME }}
           password: ${{ secrets.DEV_SSH_PASSWORD }}
-          source: "Hng_videoSuite_java_dev.tar.gz"
-          target: "~/Hng_videoSuite_java"
+          source: "hng_videoSuite_java_dev.tar.gz"
+          target: "~/hng_videoSuite_java"
 
       - name: Deploy on server
         uses: appleboy/ssh-action@master
@@ -78,9 +78,9 @@ jobs:
             git stash
             git checkout main
             git pull
-            gunzip Hng_videoSuite_java_dev.tar.gz
-            docker load < Hng_videoSuite_java_dev.tar
-            rm -f Hng_videoSuite_java_dev.tar
+            gunzip hng_videoSuite_java_dev.tar.gz
+            docker load < hng_videoSuite_java_dev.tar
+            rm -f hng_videoSuite_java_dev.tar
             chmod +x ./dev-deploy.sh
             ./dev-deploy.sh
 
