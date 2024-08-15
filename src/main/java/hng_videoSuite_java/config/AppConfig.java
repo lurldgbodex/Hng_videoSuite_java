@@ -14,6 +14,9 @@ public class AppConfig {
     @Value("${rabbitmq.queue.finishedConcat:finishedConcat}")
     private String finishedConcat;
 
+    @Value("${rabbitmq.queue.compress}")
+    private String videoCompress;
+
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
@@ -28,4 +31,10 @@ public class AppConfig {
     public Queue finishedConcat() {
         return new Queue(finishedConcat, true);
     }
+
+    @Bean
+    public Queue videoCompressQueue(){
+        return new Queue(videoCompress, true);
+    }
+
 }
