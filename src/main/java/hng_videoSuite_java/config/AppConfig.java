@@ -14,7 +14,7 @@ public class AppConfig {
     @Value("${rabbitmq.queue.finishedConcat:finishedConcat}")
     private String finishedConcat;
 
-    @Value("${rabbitmq.queue.compress}")
+    @Value("${rabbitmq.queue.compress:videoCompress}")
     private String videoCompress;
 
     @Bean
